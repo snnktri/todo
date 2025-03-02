@@ -4,9 +4,9 @@ import { addTodo, deleteTodo, updateTodo, getTodos } from "../controllers/todo.c
 
 const router = Router();
 
-router.route("/addTodo").post(verifyJWT,addTodo);
-router.route("/deleteTodo/:id").delete(verifyJWT, deleteTodo);
-router.route("/updateTodo/:id").put(verifyJWT, updateTodo);
-router.route("/getTodos").get(verifyJWT, getTodos);
+router.route("/addtodo").post(verifyJWT,addTodo);
+router.route("/deletetodo/:id").delete(verifyJWT, deleteTodo);
+router.route("/updatetodo/:id").put(verifyJWT, updateTodo);
+router.route("/gettodos").get(verifyJWT, getTodos);
 
 export default router;

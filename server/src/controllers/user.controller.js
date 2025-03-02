@@ -27,13 +27,15 @@ const generateAccessRefreshToken = async (userId) => {
 const signUp = asyncHandler( async(req, res) => {
     const { firstName, lastName, email, password } = req.body;
 
-    if([firstName, lasntName, email, password].some(field => field?.trim() === "")) {
+    if([firstName, lastName, email, password].some(field => field?.trim() === "")) {
         throw new ApiError(400, "All fields are required");
     }
 
-    const profile = req.file;
+    const profilePath = req.file;
+   // console.log(profile.path);
 
-    const profileUrl = await uploadOnCloudinary(profile.path);
+    const profileUrl = await uploadOnCloudinary(profilePath.path);
+    console.log(profileUrl);
 
     const existingUser = await User.findOne({ email });
     if(existingUser) {
@@ -99,6 +101,7 @@ const login = asyncHandler(async (req, res) => {
 });
 
 const logout = asyncHandler(async (req, res) => {
+   // console.log("i reach here");
     await User.findByIdAndUpdate(
         req.user._id,
         {
@@ -115,6 +118,8 @@ const logout = asyncHandler(async (req, res) => {
         httpOnly: true,
         //secure: true
     };
+
+   // console.log("i reach here")
 
     return res.status(200).
     clearCookie("accessToken", options).

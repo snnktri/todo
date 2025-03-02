@@ -16,12 +16,26 @@ export const addTodo = asyncHandler(async(req, res) => {
         throw new ApiError(404, "User not found");
     }
 
-    console.log("subtoods:", subTodo);
+    console.log()
 
-    const todo = new Todo({ title, description, subTodo, user, completed });
+
+    const todo = new Todo({
+        title,               
+        description,          
+        subTodo: subTodo.map(sub => ({
+            title: sub.title,          
+            description: sub.description, 
+            completed: false            
+        })),
+        user,                  
+        completed: false       
+    });
+    
+
+    await todo.save();
     await todo.save();
 
-    return req.status(201).
+    return res.status(201).
     json(new ApiResponse(
         200,
         todo,
@@ -55,9 +69,9 @@ export const getTodos = asyncHandler(async(req, res) => {
 });
 
 export const updateTodo = asyncHandler(async(req, res) => {
-    const id = req.params.id;
+    const _id = req.params.id;
     const { title, description, subTodo, completed } = req.body;
-    if(!id) {
+    if(!_id) {
         throw new ApiError(400, "id is required");
     }
     const user = req.user._id;
@@ -65,7 +79,15 @@ export const updateTodo = asyncHandler(async(req, res) => {
     if(!existUser) {
         throw new ApiError(404, "User not found");
     }
-    const todo = await Todo.findByIdAndUpdate(id, { title, description, subTodo, completed }, { new: true });
+    const todo = await Todo.findByIdAndUpdate(_id, { title,
+        description, 
+        subTodo: subTodo.map(todo => ({
+            title: todo.title,
+            description: todo.description,
+            completed: false,
+            _id: todo._id
+        })),
+        completed }, { new: true });
     if(!todo) {
         throw new ApiError(404, "Todo not found");
     }
@@ -77,7 +99,8 @@ export const updateTodo = asyncHandler(async(req, res) => {
 });
 
 export const deleteTodo = asyncHandler(async(req, res) => {
-    const { id } = req.params.id;
+    const id  = req.params.id;
+   // console.log(req.params);
     const user = req.user._id;
     if(!id) {
         throw new ApiError(400, "id is required");
@@ -86,12 +109,13 @@ export const deleteTodo = asyncHandler(async(req, res) => {
     if(!existUser) {
         throw new ApiError(404, "User not found");
     }
-    const todo = await Todo.findById(id);
+    const todo = await Todo.findByIdAndDelete({
+        _id: id
+    });
+
     if(!todo) {
         throw new ApiError(404, "Todo not found");
     }
-   
-    await todo.remove();
 
     return res.json(new ApiResponse(
         200,
