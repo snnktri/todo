@@ -38,6 +38,7 @@ const signUp = asyncHandler( async(req, res) => {
     console.log(profileUrl);
 
     const existingUser = await User.findOne({ email });
+    console.log(existingUser)
     if(existingUser) {
         throw new ApiError(400, "Email already exists");
     }

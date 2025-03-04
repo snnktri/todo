@@ -5,7 +5,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { User } from "../models/user.model.js";
 
 export const addTodo = asyncHandler(async(req, res) => {
-    const { title, description, subTodo, completed } = req.body;
+    const { title, description, completed } = req.body;
     if(!title ||!description) {
         throw new ApiError(400, "Title, description are required");
     }
@@ -22,17 +22,11 @@ export const addTodo = asyncHandler(async(req, res) => {
     const todo = new Todo({
         title,               
         description,          
-        subTodo: subTodo.map(sub => ({
-            title: sub.title,          
-            description: sub.description, 
-            completed: false            
-        })),
         user,                  
         completed: false       
     });
     
 
-    await todo.save();
     await todo.save();
 
     return res.status(201).
@@ -70,7 +64,7 @@ export const getTodos = asyncHandler(async(req, res) => {
 
 export const updateTodo = asyncHandler(async(req, res) => {
     const _id = req.params.id;
-    const { title, description, subTodo, completed } = req.body;
+    const { title, description, completed } = req.body;
     if(!_id) {
         throw new ApiError(400, "id is required");
     }
@@ -81,12 +75,6 @@ export const updateTodo = asyncHandler(async(req, res) => {
     }
     const todo = await Todo.findByIdAndUpdate(_id, { title,
         description, 
-        subTodo: subTodo.map(todo => ({
-            title: todo.title,
-            description: todo.description,
-            completed: false,
-            _id: todo._id
-        })),
         completed }, { new: true });
     if(!todo) {
         throw new ApiError(404, "Todo not found");
