@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { login } from '../services/user';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -15,9 +16,19 @@ const Login = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log(formData);
+        try {
+            const response = await login(formData);
+            
+            // if (response.success) {
+            //     console.log(response.data.accessToken);
+            // } 
+            
+        } catch (error) {
+            console.log("Error: ", error.message || error);
+        }
+        
         
     };
 

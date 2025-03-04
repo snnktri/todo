@@ -1,7 +1,38 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Laptop from "../assets/laptop.png";
-
+import { api } from '../utils/axiosInstance';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../features/auth.slice';
 const Home = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user.user);
+  console.log(user);
+useEffect(() => {
+const localHost = async () => {
+  const token = localStorage.getItem("user");
+
+  if(!token) {
+    console.log("User not found");
+    dispatch(setUser(null));
+    return
+  }
+
+  try {
+    const response = await api.get("users/protected", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
+    console.log(response);
+    dispatch(setUser(response.data.data.firstName));
+  } catch (error) {
+    console.error("User not found", error);
+  }
+}
+
+localHost();
+
+}, []);
   return (
     <div className='container bg-gray-100 min-h-screen flex flex-col md:flex-row gap-2 p-4'>
       <div className='md:w-1/2 p-2'>

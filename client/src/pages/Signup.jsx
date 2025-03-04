@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import { signUp } from '../services/user';
+import { useNavigate } from 'react-router-dom';
 const Signup = () => {
     const [formData, setFormData] = useState({
         firstName: "",
@@ -11,6 +12,8 @@ const Signup = () => {
     });
 
     const [preview, setPreview] = useState(null); 
+    
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -27,7 +30,7 @@ const Signup = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         console.log(formData);
 
@@ -41,7 +44,15 @@ const Signup = () => {
             }
         });
 
-        console.log(newFormData);
+        try {
+            const response = await signUp(newFormData);
+
+            if (response.success) {
+                navigate("/login");
+            }
+        } catch (error) {
+            console.error("error on submitting form: ", error.message);
+        }
 
        
     };
