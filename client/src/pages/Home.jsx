@@ -2,10 +2,11 @@ import React, {useEffect} from 'react';
 import Laptop from "../assets/laptop.png";
 import { api } from '../utils/axiosInstance';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '../features/auth.slice';
+import { setUser, setProfile } from '../features/auth.slice';
 const Home = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.user);
+  // const user = useSelector(state => state.user.user);
+  // const profile = useSelector(state => state.user.profile);
  // console.log(user);
 useEffect(() => {
 const localHost = async () => {
@@ -25,6 +26,7 @@ const localHost = async () => {
     });
  //   console.log(response);
     dispatch(setUser(response.data.data.firstName));
+    dispatch(setProfile(response.data.data.profile));
   } catch (error) {
     console.error("User not found", error);
   }

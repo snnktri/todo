@@ -44,7 +44,7 @@ const TodoForm = () => {
                         name="completed" 
                         checked={addtodo.completed} 
                         onChange={handleChange} 
-                        className=''
+                        className='scale-150'
                     />
                     {/* Title input */}
                     <input 
@@ -53,7 +53,8 @@ const TodoForm = () => {
                         name="title" 
                         value={addtodo.title} 
                         onChange={handleChange} 
-                        className='ml-2 border-1 p-1 border-gray-700 rounded-md focus:ring-1' 
+                        className='ml-2 border-1 p-1 border-gray-700 rounded-md focus:ring-1
+                         placeholder:text-black' 
                     />
                     {/* Description input */}
                     <input 
@@ -61,7 +62,9 @@ const TodoForm = () => {
                         name="description" 
                         value={addtodo.description} 
                         onChange={handleChange} 
-                        className='ml-2 border-1 p-1 border-gray-700 rounded-md focus:ring-1' 
+                        placeholder='description' 
+                        className='ml-2 border-1 p-1 border-gray-700 rounded-md focus:ring-1
+                        placeholder:text-black' 
                     />
                     {/* Submit button */}
                     <button 

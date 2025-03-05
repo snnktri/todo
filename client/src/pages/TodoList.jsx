@@ -12,16 +12,16 @@ const TodoList = () => {
      }, [dispatch])
    // console.log(todos);
   return (
-    <div>
-      <div>
-        <h2>To-Do List</h2>
+    
+      <div className='p-2 w-full'>
+        <h2 className='text-center text-xl uppercase font-semibold'>To-Do List</h2>
         {todos.map(todo => (
-          <div key={todo._id}>
+          <div key={todo._id} className='w-full'>
             <Item todo={todo} />
           </div>
         ))}
       </div>
-    </div>
+    
   )
 }
 
@@ -54,8 +54,8 @@ const Item = ({ todo }) => {
   };
 
   return (
-    <div>
-      <div>
+    <div className='w-full flex gap-2 items-center'>
+      <div className=''>
         {/* Checkbox for completed task */}
         <input 
           type="checkbox" 
@@ -63,14 +63,15 @@ const Item = ({ todo }) => {
           checked={data.completed} // Bind to data.completed
           onChange={handleChange} // Handle checkbox changes
           disabled={!isEdit} // Disable checkbox if not in edit mode
-        />
+          className='scale-150 mr-3' />
         {/* Title input */}
         <input 
           type="text" 
           name="title" 
           value={data.title} // Bind to data.title
           readOnly={!isEdit} // Read-only when not in edit mode
-          onChange={handleChange} // Handle title changes
+          onChange={handleChange} 
+          // Handle title changes
         />
         {/* Description input */}
         <input 
@@ -81,13 +82,15 @@ const Item = ({ todo }) => {
           onChange={handleChange} // Handle description changes
         />
         {/* Edit/Save button */}
-        <button onClick={handleUpdate}>
+        <button onClick={handleUpdate}
+        className='p-2 bg-blue-500 m-2 px-4 rounded-md hover:bg-blue-700 text-white'>
           {isEdit ? 'Save' : 'Edit'}
         </button>
       </div>
 
       {/* Delete button */}
-      <button onClick={handleDelete}>Delete</button>
+      <button onClick={handleDelete}
+      className=' h-[100%] p-2 bg-red-500 rounded-md hover:bg-red-700 text-white'>Delete</button>
     </div>
   );
 };

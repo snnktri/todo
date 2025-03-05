@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { login } from '../services/user';
 
 const Login = () => {
@@ -7,6 +7,8 @@ const Login = () => {
         email: "",
         password: ""
     });
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,11 +21,11 @@ const Login = () => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         try {
-            const response = await login(formData);
-            
-            // if (response.success) {
-            //     console.log(response.data.accessToken);
-            // } 
+            const response = await login(formData)
+            if (response.success) {
+                //console.log(response.data.accessToken);
+                navigate("/");
+            } 
             
         } catch (error) {
             console.log("Error: ", error.message || error);
