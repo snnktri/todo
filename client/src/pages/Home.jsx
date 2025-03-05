@@ -6,7 +6,7 @@ import { setUser } from '../features/auth.slice';
 const Home = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.user);
-  console.log(user);
+ // console.log(user);
 useEffect(() => {
 const localHost = async () => {
   const token = localStorage.getItem("user");
@@ -23,7 +23,7 @@ const localHost = async () => {
         Authorization: `Bearer ${token}`,
       }
     });
-    console.log(response);
+ //   console.log(response);
     dispatch(setUser(response.data.data.firstName));
   } catch (error) {
     console.error("User not found", error);
